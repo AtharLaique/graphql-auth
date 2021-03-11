@@ -1,6 +1,6 @@
 const { graphqlHTTP } = require("express-graphql");
 const { buildSchema } = require("graphql");
-
+const RootResolver = require('./resolver');
 module.exports = function graphql() {
   return graphqlHTTP({
     schema: buildSchema(`
@@ -14,14 +14,7 @@ module.exports = function graphql() {
             query: RootQuery
             mutation:RootMutation
         }`),
-    rootValue: {
-      helloWorld: async () => {
-        return "Hello World";
-      },
-      createHelloWorld: async (arg) => {
-        return `Create ${arg.msg} Hello World`;
-      },
-    },
+    rootValue: RootResolver,
     graphiql: true,
   });
 };
